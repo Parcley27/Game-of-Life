@@ -4,15 +4,13 @@ var alive = false
 var chance = 3
 
 var arrayWidth = 10
-var arrayHeight = 5
+var arrayHeight = 10
 
 var arrayX = 0
 var arrayY = 0
 
 var xSpot = 0
 var ySpot = 0
-
-var cellChecked = true
 
 var plantSeed = 0
 var valueToPrint = 0
@@ -94,9 +92,9 @@ func checkIfAlive() {
     } 
 
     if alive == true {
-        print("\nAlive!")
+        //print("\nAlive!")
     } else {
-        print("\nDead")
+        //print("\nDead")
     }
 }
 
@@ -192,8 +190,7 @@ func evolve() {
         for _ in 1 ... arrayWidth {
             neighborCount = 0
 
-            cellChecked = false
-
+            //find neighborCount
             if arrayY - 1 < 0 {
                 if arrayX - 1 < 0 {
                     checkNeighbors(sideCode: 6)
@@ -219,6 +216,18 @@ func evolve() {
                     checkNeighbors(sideCode: 2)
                 } else {
                     checkNeighbors(sideCode: 1)
+                }
+            }
+
+            if valueMap[arrayY][arrayX] == 1 {
+                if neighborCount < 2 {
+                    newMap[arrayY][arrayX] = 0
+                } else if neighborCount > 3 {
+                    newMap[arrayY][arrayX] = 0
+                }
+            } else if valueMap[arrayY][arrayX] == 0 {
+                if neighborCount == 3 {
+                    newMap[arrayY][arrayX] = 1
                 }
             }
             
