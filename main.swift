@@ -9,12 +9,12 @@ var arrayHeight = 10
 var arrayX = 0
 var arrayY = 0
 
-var xSpot = 0
-var ySpot = 0
-
 var plantSeed = 0
 var valueToPrint = 0
 var neighborCount = 0
+
+var valueToTranslate = 0
+var cellCounter = 0
 
 var valueRandomizer = Int()
 
@@ -71,6 +71,24 @@ func printToScreen() {
     }
 }
 
+func checkForRepetition() {
+    arrayX = 0
+    arrayY = 0
+
+    for _ in 1 ... arrayHeight {
+        arrayX = 0
+
+        for _ in 1 ... arrayWidth {
+            valueToTranslate = newMap[arrayY][arrayX]
+            valueMap[arrayY][arrayX] = valueToTranslate
+
+            arrayX += 1
+        }
+        
+        arrayY += 1
+    }
+}
+
 func checkIfAlive() {
     alive = false
 
@@ -90,6 +108,7 @@ func checkIfAlive() {
 
         arrayY += 1
     } 
+
 
     if alive == true {
         //print("\nAlive!")
@@ -113,7 +132,6 @@ func checkNeighbors(sideCode: Int) {
         checkSide(xSide: -1, ySide: 1)
         
         checkSide(xSide: 0, ySide: -1)
-        checkSide(xSide: 0, ySide: 0)
         checkSide(xSide: 0, ySide: 1)
             
         checkSide(xSide: 1, ySide: -1)
@@ -219,15 +237,20 @@ func evolve() {
                 }
             }
 
+            //evolve cell to newMap array
             if valueMap[arrayY][arrayX] == 1 {
                 if neighborCount < 2 {
                     newMap[arrayY][arrayX] = 0
                 } else if neighborCount > 3 {
                     newMap[arrayY][arrayX] = 0
+                } else{
+                    newMap[arrayY][arrayX] = 1
                 }
             } else if valueMap[arrayY][arrayX] == 0 {
                 if neighborCount == 3 {
                     newMap[arrayY][arrayX] = 1
+                } else {
+                    newMap[arrayY][arrayX] = 0
                 }
             }
             
@@ -238,15 +261,33 @@ func evolve() {
     }
 }
 
-randomizeValues()
+func translateArray() {
+    arrayX = 0
+    arrayY = 0
 
-for _ in 1 ... 1 {
-    randomizeValues()
-    printToScreen()
-    checkIfAlive()
-    evolve()
+    for _ in 1 ... arrayHeight {
+        arrayX = 0
 
-    if alive == false {
-        break
+        for _ in 1 ... arrayWidth {
+            valueToTranslate = newMap[arrayY][arrayX]
+            valueMap[arrayY][arrayX] = valueToTranslate
+
+            arrayX += 1
+        }
+        
+        arrayY += 1
     }
+}
+
+randomizeValues()
+checkIfAlive()
+
+while alive = true {
+   // print("\u{001B}[2J")
+    printToScreen()
+    print("")
+    evolve()
+    checkForRepetition()
+    checkIfAlive()
+    translateArray()
 }
