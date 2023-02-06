@@ -1,7 +1,11 @@
 var alive = false
+var mapRepeating = false
 
 //one in chance
-var chance = 3
+var chance = 5
+
+//how many times the program evolves 
+var cycles = 25
 
 var arrayWidth = 10
 var arrayHeight = 10
@@ -14,12 +18,13 @@ var valueToPrint = 0
 var neighborCount = 0
 
 var valueToTranslate = 0
-var cellCounter = 0
+var repeatingCells = 0
 
 var valueRandomizer = Int()
 
 var valueMap = Array(repeating: Array(repeating: 0, count: arrayWidth), count: arrayHeight)
 var newMap = Array(repeating: Array(repeating: 0, count: arrayWidth), count: arrayHeight)
+var repetitionMap = Array(repeating: Array(repeating: 2, count: arrayWidth), count: arrayHeight)
 
 func randomizeValues() {
     arrayX = 0
@@ -74,18 +79,32 @@ func printToScreen() {
 func checkForRepetition() {
     arrayX = 0
     arrayY = 0
+    repeatingCells = 0
+
+    mapRepeating = false
 
     for _ in 1 ... arrayHeight {
         arrayX = 0
 
         for _ in 1 ... arrayWidth {
             valueToTranslate = newMap[arrayY][arrayX]
-            valueMap[arrayY][arrayX] = valueToTranslate
+
+            if valueToTranslate == repetitionMap[arrayY][arrayX] {
+                repeatingCells += 1
+            }
+            
+            repetitionMap[arrayY][arrayX] = valueToTranslate
 
             arrayX += 1
         }
         
         arrayY += 1
+    }
+
+    print(repeatingCells)
+    
+    if repeatingCells == arrayWidth * arrayHeight {
+        mapRepeating = true
     }
 }
 
@@ -282,12 +301,12 @@ func translateArray() {
 randomizeValues()
 checkIfAlive()
 
-while alive = true {
-   // print("\u{001B}[2J")
+while mapRepeating == false &&  alive == true {
+    //print("\u{001B}[2J")
     printToScreen()
     print("")
     evolve()
-    checkForRepetition()
     checkIfAlive()
+    checkForRepetition()
     translateArray()
 }
