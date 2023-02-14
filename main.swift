@@ -61,10 +61,10 @@ func printToScreen() {
             let valueToPrint = valueMap[arrayY][arrayX]
 
             if valueToPrint == 0 {
-                print("⬛", terminator: "")
+                print("0", terminator: "")
                 
             } else if valueToPrint == 1 {
-                print("⬜", terminator: "")
+                print("1", terminator: "")
             }
             
             //print(valueToPrint, terminator: "")
