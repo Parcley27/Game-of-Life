@@ -9,6 +9,9 @@ var cycles = 25
 
 var arrayWidth = 10
 var arrayHeight = 10
+var arrayTime = 0
+
+var time = 0
 
 var arrayX = 0
 var arrayY = 0
@@ -64,7 +67,7 @@ func printToScreen() {
                 print("⬛", terminator: "")
                 
             } else if valueToPrint == 1 {
-                print("", terminator: "")
+                print("⬜", terminator: "")
             }
             
             //print(valueToPrint, terminator: "")
@@ -101,7 +104,7 @@ func checkForRepetition() {
         arrayY += 1
     }
 
-    print(repeatingCells)
+    //print(repeatingCells)
     
     if repeatingCells == arrayWidth * arrayHeight {
         mapRepeating = true
@@ -301,7 +304,7 @@ func translateArray() {
 randomizeValues()
 checkIfAlive()
 
-while mapRepeating == false &&  alive == true {
+while mapRepeating == false &&  alive == true && time < 100{
     //print("\u{001B}[2J")
     printToScreen()
     print("")
@@ -309,4 +312,5 @@ while mapRepeating == false &&  alive == true {
     checkIfAlive()
     checkForRepetition()
     translateArray()
+    time += 1
 }
